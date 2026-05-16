@@ -1,0 +1,461 @@
+{
+  "wycieczka": {
+    "tytul": "Trasa wynalazków i manufaktur",
+    "podtytul": "Gdynia do Lemon Resort Spa",
+    "data_start": "2026-06-27",
+    "data_koniec": "2026-07-03",
+    "liczba_dni": 7,
+    "dystans_km": 870,
+    "motyw_przewodni": "Od pomysłu do produktu. Każdy duży przystanek pokazuje inny rodzaj polskiego rzemiosła i produkcji, żeby dzieci zobaczyły jak powstają rzeczy.",
+    "uczestnicy": "Rodzina z dziećmi"
+  },
+
+  "trasa_skrocona": [
+    "Gdynia",
+    "Toruń",
+    "Łódź",
+    "Ćmielów",
+    "Sandomierz",
+    "Gródek nad Dunajcem"
+  ],
+
+  "motyw_dla_dzieci": [
+    {
+      "etap": 1,
+      "miasto": "Toruń",
+      "produkt": "Piernik",
+      "epoka": "XV wiek i wcześniej",
+      "narracja": "Rzemiosło ręczne, bez maszyn. Mistrz piernikarski i przyprawy z dalekich krajów. Pierniki były tak cenne, że dawano je w prezencie królom."
+    },
+    {
+      "etap": 2,
+      "miasto": "Łódź",
+      "produkt": "Włókno i tkaniny",
+      "epoka": "XIX wiek, rewolucja przemysłowa",
+      "narracja": "Pierwsze maszyny zastępują ręce. Cała Łódź urosła wokół fabryk Poznańskiego. Bawełna z plantacji staje się koszulą, którą nosisz."
+    },
+    {
+      "etap": 3,
+      "miasto": "Łódź EC1",
+      "produkt": "Prąd",
+      "epoka": "XX wiek",
+      "narracja": "Bez prądu nic by nie działało, ani lampy, ani komputery, ani lodówka. Łódzka elektrownia produkowała prąd dla całego miasta sto lat temu."
+    },
+    {
+      "etap": 4,
+      "miasto": "Ćmielów",
+      "produkt": "Porcelana",
+      "epoka": "XIX–XXI wiek",
+      "narracja": "Połączenie ręki i ognia. Glina + woda + 1400 stopni = filiżanka. Każdy element wciąż maluje człowiek, nie maszyna."
+    },
+    {
+      "etap": 5,
+      "miasto": "Wieliczka (drugi tydzień)",
+      "produkt": "Sól",
+      "epoka": "Średniowiecze",
+      "narracja": "Sól była tak cenna jak złoto. Polska zarabiała na soli z Wieliczki przez 700 lat. To z niej finansowano uniwersytety i zamki."
+    }
+  ],
+
+  "dni": [
+    {
+      "numer": 1,
+      "data": "2026-06-27",
+      "dzien_tygodnia": "Sobota",
+      "tytul": "Gdynia do Torunia",
+      "czas_jazdy_z_poprzedniego": "2h 45min",
+      "dystans_z_poprzedniego_km": 200,
+      "glowna_lokalizacja": "Toruń",
+      "atrakcje": [
+        {
+          "godzina": "13:00",
+          "nazwa": "Żywe Muzeum Piernika",
+          "opis": "Warsztat piernikarski pod okiem Mistrza Piernikarskiego i Wiedźmy Korzennej. Dzieci same wałkują ciasto, dodają cynamon, kardamon, goździki i odciskają w drewnianych formach. Piernik zabierają do domu.",
+          "czas_trwania": "1.5h",
+          "obowiazkowa_rezerwacja": true,
+          "uwagi": "Wejścia o pełnych godzinach, ostatnie 17:00. Bilety online z konkretną godziną."
+        }
+      ],
+      "nocleg": "Toruń, centrum lub w okolicy starówki",
+      "notatki_praktyczne": "Wyjazd z Gdyni rano, ok. 8:00–9:00, żeby zdążyć na obiad w Toruniu przed warsztatem piernikarskim."
+    },
+    {
+      "numer": 2,
+      "data": "2026-06-28",
+      "dzien_tygodnia": "Niedziela",
+      "tytul": "Toruń, dzień nauki",
+      "czas_jazdy_z_poprzedniego": "0",
+      "dystans_z_poprzedniego_km": 0,
+      "glowna_lokalizacja": "Toruń",
+      "atrakcje": [
+        {
+          "godzina": "10:00",
+          "nazwa": "Dom Mikołaja Kopernika",
+          "opis": "Interaktywne wystawy o renesansowych odkryciach naukowych. Średniowieczna kamienica, prawdopodobne miejsce urodzenia astronoma.",
+          "czas_trwania": "1.5h",
+          "obowiazkowa_rezerwacja": false
+        },
+        {
+          "godzina": "12:00",
+          "nazwa": "Spacer po starówce",
+          "opis": "Krzywa Wieża, Pomnik Kopernika, rzeźba Osiołka, Piernikarka. Dom Legend Toruńskich opcjonalnie.",
+          "czas_trwania": "1h"
+        },
+        {
+          "godzina": "14:30",
+          "nazwa": "Centrum Nowoczesności Młyn Wiedzy",
+          "opis": "Pięć pięter eksperymentów. Najdłuższe w Polsce wahadło Foucaulta. Strefy warsztatowe do konstruowania.",
+          "czas_trwania": "2.5h"
+        },
+        {
+          "godzina": "18:00",
+          "nazwa": "Przejazd do Łodzi",
+          "opis": "Wyjazd z Torunia, ok. 2h30 jazdy, dotarcie wieczorem.",
+          "czas_trwania": "2.5h"
+        }
+      ],
+      "nocleg": "Łódź, centrum lub okolice Manufaktury",
+      "notatki_praktyczne": "Dom Kopernika i Młyn Wiedzy oba przyjmują bilety online, warto rezerwować z wyprzedzeniem."
+    },
+    {
+      "numer": 3,
+      "data": "2026-06-29",
+      "dzien_tygodnia": "Poniedziałek",
+      "tytul": "Łódź, Manufaktura",
+      "czas_jazdy_z_poprzedniego": "2h 30min",
+      "dystans_z_poprzedniego_km": 180,
+      "glowna_lokalizacja": "Łódź",
+      "atrakcje": [
+        {
+          "godzina": "10:00",
+          "nazwa": "Spacer po Manufakturze",
+          "opis": "Kompleks pofabryczny Izraela Poznańskiego, czerwona cegła, fontanny, największy plac handlowy w Polsce.",
+          "czas_trwania": "1.5h"
+        },
+        {
+          "godzina": "12:00",
+          "nazwa": "Pałac Poznańskiego",
+          "opis": "Rezydencja najbogatszego łódzkiego fabrykanta, dziś Muzeum Miasta Łodzi. XIX-wieczne wnętrza burżuazyjne.",
+          "czas_trwania": "1.5h"
+        },
+        {
+          "godzina": "15:00",
+          "nazwa": "Experymentarium i Machinarium",
+          "opis": "Wystawa eksperymentów dla dzieci plus bezpłatny plac zabaw Machinarium dla 6-12 lat.",
+          "czas_trwania": "2h"
+        }
+      ],
+      "nocleg": "Łódź, ta sama lokalizacja co dzień poprzedni",
+      "notatki_praktyczne": "ALERT: Muzeum Fabryki w Manufakturze w poniedziałki nieczynne. Centrum Nauki i Techniki EC1 też nieczynne w poniedziałki. Dlatego dziś tylko spacer i lżejsze atrakcje, a Muzeum Fabryki + EC1 przesunięte na wtorek."
+    },
+    {
+      "numer": 4,
+      "data": "2026-06-30",
+      "dzien_tygodnia": "Wtorek",
+      "tytul": "Łódź, włókno i prąd",
+      "czas_jazdy_z_poprzedniego": "0",
+      "dystans_z_poprzedniego_km": 0,
+      "glowna_lokalizacja": "Łódź",
+      "atrakcje": [
+        {
+          "godzina": "10:00",
+          "nazwa": "Muzeum Fabryki w Manufakturze",
+          "opis": "Zabytkowe krosna w ruchu. Droga bawełny z plantacji przez fabrykę do koszuli. Maszyny z największego parku maszynowego Poznańskiego.",
+          "czas_trwania": "1.5h",
+          "obowiazkowa_rezerwacja": false,
+          "uwagi": "Wtorek-piątek 10-18, sob-niedz 10-18, poniedziałek nieczynne."
+        },
+        {
+          "godzina": "13:00",
+          "nazwa": "Obiad w Manufakturze",
+          "opis": "Strefa gastronomiczna w Qulinarium albo restauracje przy rynku.",
+          "czas_trwania": "1h"
+        },
+        {
+          "godzina": "14:30",
+          "nazwa": "Centrum Nauki i Techniki EC1",
+          "opis": "Dawna elektrownia łódzka jako muzeum techniki. 8000 m2 wystaw o tym jak powstaje prąd. Kino sferyczne, planetarium. Ulica Żywiołów dla młodszych dzieci 3-10 lat (osobny bilet, max 2h).",
+          "czas_trwania": "3h",
+          "obowiazkowa_rezerwacja": false,
+          "uwagi": "Wt-niedz 10-18, poniedziałek nieczynne. Bilety online: bilety.ec1lodz.pl"
+        }
+      ],
+      "nocleg": "Łódź, ten sam hotel",
+      "notatki_praktyczne": "Dzień intensywny, dwie duże atrakcje. Można rozważyć krótszą wizytę w jednej z nich jeśli dzieci się zmęczą."
+    },
+    {
+      "numer": 5,
+      "data": "2026-07-01",
+      "dzien_tygodnia": "Środa",
+      "tytul": "Łódź do Ćmielowa",
+      "czas_jazdy_z_poprzedniego": "3h",
+      "dystans_z_poprzedniego_km": 230,
+      "glowna_lokalizacja": "Ćmielów",
+      "atrakcje": [
+        {
+          "godzina": "13:00",
+          "nazwa": "Żywe Muzeum Porcelany AS Ćmielów",
+          "opis": "Wejście do oryginalnego 22-metrowego pieca do wypalania porcelany (multimedialna sala wewnątrz). Pokaz każdego etapu produkcji na żywo: odlewanie figurek, szkliwienie, ręczne malowanie złotem, kalkomania. Unikatowa różowa porcelana wg przedwojennej receptury Kryńskiego.",
+          "czas_trwania": "2h",
+          "obowiazkowa_rezerwacja": true,
+          "uwagi": "Rezerwacja telefoniczna obowiązkowa, ostatnie wejście 15:00. Min. 4 osoby w grupie. Opcjonalnie warsztat malarski za dopłatą."
+        }
+      ],
+      "nocleg": "Sandomierz lub okolice (40 min od Ćmielowa)",
+      "notatki_praktyczne": "Wyjazd z Łodzi po śniadaniu, ok. 9:00. Obiad w drodze lub w Ćmielowie."
+    },
+    {
+      "numer": 6,
+      "data": "2026-07-02",
+      "dzien_tygodnia": "Czwartek",
+      "tytul": "Sandomierz, dzień oddechu",
+      "czas_jazdy_z_poprzedniego": "40min",
+      "dystans_z_poprzedniego_km": 40,
+      "glowna_lokalizacja": "Sandomierz",
+      "atrakcje": [
+        {
+          "godzina": "10:00",
+          "nazwa": "Podziemna Trasa Turystyczna",
+          "opis": "Średniowieczne kupieckie piwnice pod sandomierską starówką. Trasa 470 metrów na głębokości do 12 metrów.",
+          "czas_trwania": "1h"
+        },
+        {
+          "godzina": "12:00",
+          "nazwa": "Starówka i Rynek",
+          "opis": "Renesansowa zabudowa, ratusz, Brama Opatowska. Spacer i obiad.",
+          "czas_trwania": "2h"
+        },
+        {
+          "godzina": "15:00",
+          "nazwa": "Wisła i widoki",
+          "opis": "Spacer nad Wisłą, opcjonalnie rejs statkiem.",
+          "czas_trwania": "1.5h"
+        }
+      ],
+      "nocleg": "Sandomierz albo przesunięcie do Tarnowa, żeby skrócić jutrzejszą jazdę",
+      "notatki_praktyczne": "Alternatywa dla dzieci potrzebujących wybiegania energii: Park Jurajski Bałtów (20 min od Ćmielowa, dinozaury, tropikalne zoo, rafting po Kamiennej). Można połączyć Bałtów rano z Sandomierzem po południu."
+    },
+    {
+      "numer": 7,
+      "data": "2026-07-03",
+      "dzien_tygodnia": "Piątek",
+      "tytul": "Dojazd do Lemona",
+      "czas_jazdy_z_poprzedniego": "2h 30min",
+      "dystans_z_poprzedniego_km": 220,
+      "glowna_lokalizacja": "Gródek nad Dunajcem",
+      "atrakcje": [
+        {
+          "godzina": "11:00",
+          "nazwa": "Opcjonalnie Tarnów (jeśli nie nocowaliście)",
+          "opis": "Renesansowa starówka, obiad. Można pominąć jeśli jedziecie z noclegu w okolicy.",
+          "czas_trwania": "2h"
+        },
+        {
+          "godzina": "14:30",
+          "nazwa": "Opcjonalnie Zamek Tropsztyn w Wytrzyszczce",
+          "opis": "Zamek tuż przed Gródkiem nad Dunajcem. Krótki przystanek 30 minut.",
+          "czas_trwania": "0.5h"
+        },
+        {
+          "godzina": "16:00",
+          "nazwa": "Check-in Lemon Resort Spa",
+          "opis": "Doba hotelowa zaczyna się 16:00. Wieczór: basen, kolacja w restauracji nad jeziorem.",
+          "czas_trwania": "wieczór"
+        }
+      ],
+      "nocleg": "Lemon Resort Spa, Gródek nad Dunajcem",
+      "notatki_praktyczne": "Hotel ma bezpłatny parking, bezpłatne ładowanie EV. Doba hotelowa 16:00-12:00. Kolacja w formie bufetu 18:00-20:30."
+    }
+  ],
+
+  "miejsca_na_mapie": [
+    {
+      "id": "gdynia",
+      "nazwa": "Gdynia (start)",
+      "latitude": 54.5189,
+      "longitude": 18.5305,
+      "dzien": 1,
+      "typ": "start"
+    },
+    {
+      "id": "torun",
+      "nazwa": "Toruń",
+      "latitude": 53.008692,
+      "longitude": 18.60485,
+      "dzien": 1,
+      "typ": "atrakcja_z_noclegiem",
+      "google_maps_url": "https://maps.google.com/?cid=13980822452107146021",
+      "telefon": "+48 56 663 66 17",
+      "website": "https://muzeumpiernika.pl/",
+      "godziny_otwarcia": "Codziennie 10:00-18:00",
+      "rezerwacja": "online z wyprzedzeniem",
+      "opis": "Żywe Muzeum Piernika, warsztat dla dzieci"
+    },
+    {
+      "id": "lodz",
+      "nazwa": "Łódź",
+      "latitude": 51.7791,
+      "longitude": 19.4441,
+      "dzien": 3,
+      "typ": "atrakcja_z_noclegiem",
+      "google_maps_url": "https://maps.google.com/?cid=18205785550394553947",
+      "telefon": "+48 42 664 92 89",
+      "website": "https://www.manufaktura.com/",
+      "godziny_otwarcia": "Pn-sob 10:00-22:00, niedz nieczynne",
+      "opis": "Manufaktura + EC1 + Muzeum Fabryki"
+    },
+    {
+      "id": "ec1",
+      "nazwa": "Centrum Nauki i Techniki EC1",
+      "latitude": 51.7678,
+      "longitude": 19.4679,
+      "dzien": 4,
+      "typ": "atrakcja",
+      "google_maps_url": "https://maps.google.com/?cid=2241955043856337989",
+      "telefon": "+48 42 600 61 00",
+      "website": "http://www.centrumnaukiec1.pl/",
+      "godziny_otwarcia": "Wt-niedz 10:00-18:00, pn nieczynne",
+      "rezerwacja": "online: bilety.ec1lodz.pl",
+      "opis": "Muzeum techniki w dawnej elektrowni"
+    },
+    {
+      "id": "cmielow",
+      "nazwa": "Ćmielów",
+      "latitude": 50.8863,
+      "longitude": 21.5325,
+      "dzien": 5,
+      "typ": "atrakcja",
+      "google_maps_url": "https://maps.google.com/?cid=7382122863465396239",
+      "telefon": "+48 535 588 960",
+      "website": "http://turystyka.cmielow.com.pl/",
+      "godziny_otwarcia": "Codziennie 9:00-18:00, ostatnie wejście 15:00",
+      "rezerwacja": "telefoniczna obowiązkowa, min. 4 osoby",
+      "opis": "Żywe Muzeum Porcelany AS Ćmielów"
+    },
+    {
+      "id": "sandomierz",
+      "nazwa": "Sandomierz",
+      "latitude": 50.6826,
+      "longitude": 21.7491,
+      "dzien": 6,
+      "typ": "atrakcja_z_noclegiem",
+      "opis": "Średniowieczna starówka, podziemna trasa"
+    },
+    {
+      "id": "lemon",
+      "nazwa": "Lemon Resort Spa (cel)",
+      "latitude": 49.7501,
+      "longitude": 20.7327,
+      "dzien": 7,
+      "typ": "cel",
+      "google_maps_url": "https://maps.google.com/?cid=4491105551731832774",
+      "telefon": "+48 18 440 58 00",
+      "website": "https://www.lemonresort.pl/",
+      "adres": "Gródek nad Dunajcem 83, 33-318",
+      "opis": "Hotel docelowy, pobyt do 11.07"
+    }
+  ],
+
+  "checklista_rezerwacji": [
+    {
+      "id": "piernik",
+      "nazwa": "Żywe Muzeum Piernika, Toruń",
+      "deadline": "2026-06-13",
+      "deadline_opis": "2-3 tygodnie przed",
+      "metoda": "online",
+      "link": "https://muzeumpiernika.pl",
+      "priorytet": "wysoki"
+    },
+    {
+      "id": "ec1",
+      "nazwa": "Centrum Nauki i Techniki EC1, Łódź",
+      "deadline": "2026-06-23",
+      "deadline_opis": "1 tydzień przed",
+      "metoda": "online",
+      "link": "http://bilety.ec1lodz.pl",
+      "priorytet": "średni"
+    },
+    {
+      "id": "cmielow",
+      "nazwa": "Żywe Muzeum Porcelany, Ćmielów",
+      "deadline": "2026-06-20",
+      "deadline_opis": "tydzień-dwa przed",
+      "metoda": "telefon",
+      "telefon": "+48 535 588 960",
+      "priorytet": "wysoki",
+      "uwagi": "Min. 4 osoby w grupie. Można dorzucić warsztat malarski."
+    },
+    {
+      "id": "fabryka",
+      "nazwa": "Muzeum Fabryki w Manufakturze",
+      "deadline": "2026-06-15",
+      "deadline_opis": "sprawdzić warsztaty",
+      "metoda": "online",
+      "link": "https://muzeumfabryki.com.pl",
+      "priorytet": "niski"
+    },
+    {
+      "id": "nocleg_torun",
+      "nazwa": "Nocleg Toruń (1 noc, 27/28.06)",
+      "deadline": "2026-06-01",
+      "deadline_opis": "ASAP, sezon wakacyjny",
+      "metoda": "booking",
+      "priorytet": "wysoki"
+    },
+    {
+      "id": "nocleg_lodz",
+      "nazwa": "Nocleg Łódź (2 noce, 28-30.06)",
+      "deadline": "2026-06-01",
+      "deadline_opis": "ASAP, sezon wakacyjny",
+      "metoda": "booking",
+      "priorytet": "wysoki"
+    },
+    {
+      "id": "nocleg_sandomierz",
+      "nazwa": "Nocleg Sandomierz lub Tarnów (2 noce, 1-3.07)",
+      "deadline": "2026-06-01",
+      "deadline_opis": "ASAP, sezon wakacyjny",
+      "metoda": "booking",
+      "priorytet": "wysoki"
+    },
+    {
+      "id": "lemon",
+      "nazwa": "Lemon Resort Spa (check-in 3.07)",
+      "status_default": true,
+      "deadline": "wykonane",
+      "metoda": "wykonane",
+      "priorytet": "wykonane"
+    }
+  ],
+
+  "kontakty": [
+    {
+      "nazwa": "Żywe Muzeum Piernika, Toruń",
+      "telefon": "+48 56 663 66 17",
+      "email": "muzeumpiernika@muzeumpiernika.pl",
+      "adres": "Rabiańska 9, 87-100 Toruń"
+    },
+    {
+      "nazwa": "Muzeum Fabryki, Łódź",
+      "telefon": "+48 42 664 92 93",
+      "email": "muzeum@manufaktura.com",
+      "adres": "Drewnowska 58, 91-002 Łódź"
+    },
+    {
+      "nazwa": "Centrum Nauki i Techniki EC1, Łódź",
+      "telefon": "+48 42 600 61 00",
+      "adres": "Targowa 1/3, 90-022 Łódź"
+    },
+    {
+      "nazwa": "Żywe Muzeum Porcelany AS Ćmielów",
+      "telefon": "+48 535 588 960",
+      "telefon_2": "+48 15 861 20 21 wew. 22",
+      "adres": "Sandomierska 243, 27-440 Ćmielów"
+    },
+    {
+      "nazwa": "Lemon Resort Spa",
+      "telefon": "+48 18 440 58 00",
+      "adres": "Gródek nad Dunajcem 83, 33-318"
+    }
+  ]
+}

@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trasa wynalazków i manufaktur — 27.06–3.07.2026</title>
+<meta name="description" content="Plan rodzinnej trasy z Gdyni do Lemon Resort Spa przez Toruń, Łódź, Ćmielów i Sandomierz.">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+  /* ============================================================
+     Zmienne i tryby (jasny/ciemny przez preferencje systemowe)
+     ============================================================ */
+  :root {
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --surface-hover: #F2F2EC;
+    --text: #1A1A1A;
+    --text-muted: #6B6B66;
+    --text-faint: #999994;
+    --border: #E8E8E2;
+    --border-strong: #D4D4CC;
+    --accent: #3A5A40;
+    --accent-soft: rgba(58, 90, 64, 0.08);
+    --warn: #B85C1F;
+    --radius: 8px;
+    --radius-sm: 4px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131312;
+      --surface: #1B1B19;
+      --surface-hover: #24241F;
+      --text: #ECECE5;
+      --text-muted: #9C9C95;
+      --text-faint: #6D6D67;
+      --border: #2A2A26;
+      --border-strong: #3A3A33;
+      --accent: #8FB28F;
+      --accent-soft: rgba(143, 178, 143, 0.12);
+      --warn: #D4845A;
+    }
+  }
+
+  /* ============================================================
+     Reset i typografia bazowa
+     ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 system-ui, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.015em; }
+  h1 { font-size: clamp(1.875rem, 4vw, 2.5rem); line-height: 1.15; letter-spacing: -0.025em; }
+  h2 { font-size: 1.375rem; line-height: 1.3; color: var(--accent); }
+  h3 { font-size: 1rem; line-height: 1.4; }
+  h4 { font-size: 0.9375rem; line-height: 1.4; }
+  p { margin: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ============================================================
+     Sticky nav (subtelne, jak w Notion)
+     ============================================================ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-brand {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    margin-right: 0.5rem;
+  }
+  .nav-brand-sep {
+    color: var(--text-faint);
+    margin: 0 0.5rem;
+    font-weight: 400;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a {
+    display: block;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    background: var(--surface-hover);
+    text-decoration: none;
+  }
+
+  /* ============================================================
+     Main layout
+     ============================================================ */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+  section {
+    margin-bottom: 5rem;
+    scroll-margin-top: 4rem;
+  }
+  section:last-of-type { margin-bottom: 0; }
+
+  .section-eyebrow {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ============================================================
+     Hero
+     ============================================================ */
+  .hero {
+    margin-bottom: 4rem;
+  }
+  .hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+    margin-top: 0.5rem;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0;
+    margin: 2.5rem 0 2rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-meta > div {
+    padding: 0 1rem;
+    border-right: 1px solid var(--border);
+  }
+  .hero-meta > div:last-child { border-right: 0; }
+  .hero-meta dt {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .hero-meta dd {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-trasa {
+    margin-top: 1.5rem;
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .hero-trasa strong { color: var(--text); font-weight: 500; }
+  .hero-motyw {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  /* ============================================================
+     Mapa
+     ============================================================ */
+  #mapa-leaflet {
+    height: 440px;
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .mapa-hint {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--text-faint);
+  }
+  .leaflet-popup-content {
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .leaflet-popup-content strong { color: var(--text); }
+  .leaflet-popup-content .pop-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 0.25rem 0;
+  }
+
+  /* ============================================================
+     Karty dni (accordion)
+     ============================================================ */
+  .dzien {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.625rem;
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .dzien:hover { border-color: var(--border-strong); }
+  .dzien[open] { border-color: var(--border-strong); }
+
+  .dzien summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    display: grid;
+    grid-template-columns: 5rem 1fr auto auto;
+    align-items: center;
+    gap: 1rem;
+    user-select: none;
+  }
+  .dzien summary::-webkit-details-marker { display: none; }
+  .dzien summary:focus { outline: none; }
+  .dzien summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .dzien-numer {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+  .dzien-info { min-width: 0; }
+  .dzien-info .data {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    margin-bottom: 0.125rem;
+  }
+  .dzien-info .tytul {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--text);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dzien-jazda {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .dzien-toggle {
+    width: 1rem;
+    height: 1rem;
+    color: var(--text-faint);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .dzien[open] .dzien-toggle {
+    transform: rotate(180deg);
+    color: var(--text-muted);
+  }
+
+  .dzien-body {
+    padding: 0.25rem 1.25rem 1.25rem;
+    border-top: 1px solid var(--border);
+    margin-top: -1px;
+  }
+
+  .atrakcja {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .atrakcja:last-child { border-bottom: 0; padding-bottom: 0.5rem; }
+  .atrakcja:first-child { padding-top: 1.25rem; }
+  .atrakcja-godzina {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    padding-top: 0.0625rem;
+  }
+  .atrakcja-nazwa {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .atrakcja-opis {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .atrakcja-uwagi {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--border-strong);
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 3px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .notatka {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface-hover);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .notatka strong { color: var(--text); font-weight: 600; }
+  .notatka.alert {
+    background: color-mix(in srgb, var(--warn) 8%, transparent);
+    color: var(--text);
+  }
+  .notatka.alert strong { color: var(--warn); }
+
+  /* ============================================================
+     Checklista
+     ============================================================ */
+  .checklista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .checklista li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 0.875rem;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .checklista li:last-child { border-bottom: 0; }
+  .checklista input[type=checkbox] {
+    margin-top: 0.1875rem;
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
+  .checklista .chk-tresc {
+    min-width: 0;
+  }
+  .checklista .chk-nazwa {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    color: var(--text);
+    cursor: pointer;
+    line-height: 1.45;
+  }
+  .checklista li.done .chk-nazwa {
+    color: var(--text-faint);
+    text-decoration: line-through;
+  }
+  .checklista .chk-link {
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+    color: var(--text-muted);
+    word-break: break-word;
+  }
+  .checklista .chk-link a { color: var(--accent); }
+  .checklista .chk-deadline {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .checklista .chk-deadline .priorytet {
+    display: block;
+    margin-top: 0.125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+  .priorytet-wysoki { color: var(--warn); }
+  .priorytet-średni { color: var(--text-muted); }
+  .priorytet-niski { color: var(--text-faint); }
+  .priorytet-wykonane { color: var(--accent); }
+
+  /* ============================================================
+     Kontakty
+     ============================================================ */
+  .kontakt {
+    padding: 1.125rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .kontakt:last-child { border-bottom: 0; }
+  .kontakt:first-child { padding-top: 0; }
+  .kontakt h4 { margin-bottom: 0.375rem; }
+  .kontakt-pola {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+  .kontakt-pola .pole {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .kontakt-pola .pole-label {
+    color: var(--text-faint);
+    flex-shrink: 0;
+    min-width: 3.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 0.125rem;
+  }
+  .kontakt-pola .pole-val { flex: 1; min-width: 0; word-break: break-word; }
+
+  /* ============================================================
+     Motyw dla dzieci
+     ============================================================ */
+  .etap {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .etap:last-child { border-bottom: 0; }
+  .etap:first-child { padding-top: 0; }
+  .etap-numer {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .etap-meta {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+  }
+  .etap-produkt {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .etap-narracja {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ============================================================
+     Footer
+     ============================================================ */
+  footer {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-faint);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  /* ============================================================
+     Stany ładowania
+     ============================================================ */
+  .ladowanie {
+    color: var(--text-faint);
+    font-size: 0.875rem;
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  /* ============================================================
+     Responsive (mobile-first poprawki)
+     ============================================================ */
+  @media (max-width: 640px) {
+    main { padding: 2rem 1rem 4rem; }
+    section { margin-bottom: 3.5rem; scroll-margin-top: 3.5rem; }
+    .nav-inner { padding: 0.625rem 1rem; }
+    .nav-brand { display: none; }
+    .nav-brand-sep { display: none; }
+    .hero-meta { grid-template-columns: 1fr 1fr; gap: 1rem 0; padding: 1rem 0; }
+    .hero-meta > div { padding: 0.25rem 1rem; border-right: 0; }
+    .hero-meta > div:nth-child(odd) { border-right: 1px solid var(--border); }
+    .hero-motyw { padding: 1rem 1.125rem; }
+
+    #mapa-leaflet { height: 360px; }
+
+    .dzien summary {
+      grid-template-columns: auto 1fr auto;
+      gap: 0.75rem;
+    }
+    .dzien-numer { font-size: 0.6875rem; }
+    .dzien-jazda { display: none; }
+    .dzien-body { padding: 0.25rem 1rem 1rem; }
+
+    .atrakcja {
+      grid-template-columns: 3rem 1fr;
+      gap: 0.875rem;
+      padding: 0.875rem 0;
+    }
+    .atrakcja:first-child { padding-top: 1rem; }
+
+    .checklista li {
+      grid-template-columns: auto 1fr;
+      padding: 0.875rem 1rem;
+    }
+    .checklista .chk-deadline {
+      grid-column: 2;
+      text-align: left;
+      margin-top: 0.25rem;
+    }
+
+    .etap { grid-template-columns: 2rem 1fr; gap: 1rem; padding: 1rem 0; }
+    .etap-numer { font-size: 1.5rem; }
+  }
+
+  /* ============================================================
+     Print (A4, czarno-biały, wszystko rozwinięte)
+     ============================================================ */
+  @media print {
+    .nav, #mapa-leaflet, .mapa-hint, footer, .dzien-toggle { display: none; }
+    body { background: white; color: black; font-size: 11pt; }
+    main { padding: 0; max-width: 100%; }
+    section { margin-bottom: 1.5rem; page-break-inside: avoid; }
+    h1 { font-size: 22pt; }
+    h2 { font-size: 14pt; color: black; }
+    h3, h4 { color: black; }
+    a { color: black; text-decoration: none; }
+    .checklista a, .kontakt-pola a { color: black; }
+    .dzien { border: 1px solid #999; page-break-inside: avoid; }
+    .dzien[open], .dzien:not([open]) > .dzien-body { display: block !important; }
+    details > .dzien-body { display: block !important; }
+    .atrakcja { padding: 0.5rem 0; }
+    .checklista { border: 1px solid #999; }
+    .hero-motyw { background: #f5f5f5; border: 1px solid #ddd; }
+    .tag { border: 1px solid #999; background: transparent; color: black; }
+    .notatka { border: 1px solid #ccc; background: #fafafa; color: black; }
+    .notatka.alert { border: 1px solid #999; }
+    @page { margin: 1.5cm; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Główna">
+  <div class="nav-inner">
+    <span class="nav-brand">Wycieczka 2026</span>
+    <span class="nav-brand-sep">·</span>
+    <ul class="nav-links">
+      <li><a href="#przeglad">Przegląd</a></li>
+      <li><a href="#mapa">Mapa</a></li>
+      <li><a href="#plan">Plan dni</a></li>
+      <li><a href="#rezerwacje">Rezerwacje</a></li>
+      <li><a href="#kontakty">Kontakty</a></li>
+      <li><a href="#motyw">Dla dzieci</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============================================================
+       Sekcja 1: Hero / przegląd
+       ============================================================ -->
+  <section id="przeglad" class="hero">
+    <h1 id="hero-tytul">Trasa wynalazków i manufaktur</h1>
+    <p class="hero-subtitle" id="hero-podtytul">Gdynia do Lemon Resort Spa</p>
+
+    <dl class="hero-meta">
+      <div>
+        <dt>Daty</dt>
+        <dd id="hero-daty">—</dd>
+      </div>
+      <div>
+        <dt>Czas</dt>
+        <dd id="hero-dni">—</dd>
+      </div>
+      <div>
+        <dt>Dystans</dt>
+        <dd id="hero-dystans">—</dd>
+      </div>
+      <div>
+        <dt>Uczestnicy</dt>
+        <dd id="hero-uczestnicy">—</dd>
+      </div>
+    </dl>
+
+    <div class="hero-trasa" id="hero-trasa">—</div>
+
+    <div class="hero-motyw" id="hero-motyw">—</div>
+  </section>
+
+  <!-- ============================================================
+       Sekcja 2: Mapa
+       ============================================================ -->
+  <section id="mapa">
+    <div class="section-eyebrow">Mapa trasy</div>
+    <h2>Sześć przystanków, jedna linia</h2>
+    <div id="mapa-leaflet" role="application" aria-label="Mapa trasy"></div>
+    <p class="mapa-hint">Kliknij marker, żeby zobaczyć szczegóły miejsca. Aby zoomować — użyj przycisków + / − w lewym górnym rogu.</p>
+  </section>
+
+  <!-- ============================================================
+       Sekcja 3: Plan dzień po dniu
+       ============================================================ -->
+  <section id="plan">
+    <div class="section-eyebrow">Plan dzień po dniu</div>
+    <h2>Siedem dni w drodze</h2>
+    <div id="plan-dni" class="ladowanie">Ładowanie planu…</div>
+  </section>
+
+  <!-- ============================================================
+       Sekcja 4: Rezerwacje i checklista
+       ============================================================ -->
+  <section id="rezerwacje">
+    <div class="section-eyebrow">Przed wyjazdem</div>
+    <h2>Co rezerwować, kiedy, jak</h2>
+    <ul id="checklista-lista" class="checklista ladowanie">
+      <li>Ładowanie checklisty…</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================
+       Sekcja 5: Kontakty
+       ============================================================ -->
+  <section id="kontakty">
+    <div class="section-eyebrow">Telefony i adresy</div>
+    <h2>Komu zadzwonić</h2>
+    <div id="kontakty-lista" class="ladowanie">Ładowanie kontaktów…</div>
+  </section>
+
+  <!-- ============================================================
+       Sekcja 6: Motyw dla dzieci
+       ============================================================ -->
+  <section id="motyw">
+    <div class="section-eyebrow">Narracja dla dzieci</div>
+    <h2>Od pomysłu do produktu</h2>
+    <div id="motyw-lista" class="ladowanie">Ładowanie…</div>
+  </section>
+
+</main>
+
+<footer>
+  Plan rodzinny. Otwierany lokalnie z dysku, bez serwera. Stan checklisty pamięta przeglądarka.
+</footer>
+
+<!-- ============================================================
+     Wbudowana kopia danych jako fallback dla file://
+     Aktualizuj razem z plikiem trasa-dane.json.
+     ============================================================ -->
+<script type="application/json" id="dane-fallback">
+{
+  "wycieczka": {
+    "tytul": "Trasa wynalazków i manufaktur",
+    "podtytul": "Gdynia do Lemon Resort Spa",
+    "data_start": "2026-06-27",
+    "data_koniec": "2026-07-03",
+    "liczba_dni": 7,
+    "dystans_km": 870,
+    "motyw_przewodni": "Od pomysłu do produktu. Każdy duży przystanek pokazuje inny rodzaj polskiego rzemiosła i produkcji, żeby dzieci zobaczyły jak powstają rzeczy.",
+    "uczestnicy": "Rodzina z dziećmi"
+  },
+  "trasa_skrocona": ["Gdynia", "Toruń", "Łódź", "Ćmielów", "Sandomierz", "Gródek nad Dunajcem"],
+  "motyw_dla_dzieci": [
+    {"etap":1,"miasto":"Toruń","produkt":"Piernik","epoka":"XV wiek i wcześniej","narracja":"Rzemiosło ręczne, bez maszyn. Mistrz piernikarski i przyprawy z dalekich krajów. Pierniki były tak cenne, że dawano je w prezencie królom."},
+    {"etap":2,"miasto":"Łódź","produkt":"Włókno i tkaniny","epoka":"XIX wiek, rewolucja przemysłowa","narracja":"Pierwsze maszyny zastępują ręce. Cała Łódź urosła wokół fabryk Poznańskiego. Bawełna z plantacji staje się koszulą, którą nosisz."},
+    {"etap":3,"miasto":"Łódź EC1","produkt":"Prąd","epoka":"XX wiek","narracja":"Bez prądu nic by nie działało, ani lampy, ani komputery, ani lodówka. Łódzka elektrownia produkowała prąd dla całego miasta sto lat temu."},
+    {"etap":4,"miasto":"Ćmielów","produkt":"Porcelana","epoka":"XIX–XXI wiek","narracja":"Połączenie ręki i ognia. Glina + woda + 1400 stopni = filiżanka. Każdy element wciąż maluje człowiek, nie maszyna."},
+    {"etap":5,"miasto":"Wieliczka (drugi tydzień)","produkt":"Sól","epoka":"Średniowiecze","narracja":"Sól była tak cenna jak złoto. Polska zarabiała na soli z Wieliczki przez 700 lat. To z niej finansowano uniwersytety i zamki."}
+  ],
+  "dni": [
+    {"numer":1,"data":"2026-06-27","dzien_tygodnia":"Sobota","tytul":"Gdynia do Torunia","czas_jazdy_z_poprzedniego":"2h 45min","dystans_z_poprzedniego_km":200,"glowna_lokalizacja":"Toruń","atrakcje":[{"godzina":"13:00","nazwa":"Żywe Muzeum Piernika","opis":"Warsztat piernikarski pod okiem Mistrza Piernikarskiego i Wiedźmy Korzennej. Dzieci same wałkują ciasto, dodają cynamon, kardamon, goździki i odciskają w drewnianych formach. Piernik zabierają do domu.","czas_trwania":"1.5h","obowiazkowa_rezerwacja":true,"uwagi":"Wejścia o pełnych godzinach, ostatnie 17:00. Bilety online z konkretną godziną."}],"nocleg":"Toruń, centrum lub w okolicy starówki","notatki_praktyczne":"Wyjazd z Gdyni rano, ok. 8:00–9:00, żeby zdążyć na obiad w Toruniu przed warsztatem piernikarskim."},
+    {"numer":2,"data":"2026-06-28","dzien_tygodnia":"Niedziela","tytul":"Toruń, dzień nauki","czas_jazdy_z_poprzedniego":"0","dystans_z_poprzedniego_km":0,"glowna_lokalizacja":"Toruń","atrakcje":[{"godzina":"10:00","nazwa":"Dom Mikołaja Kopernika","opis":"Interaktywne wystawy o renesansowych odkryciach naukowych. Średniowieczna kamienica, prawdopodobne miejsce urodzenia astronoma.","czas_trwania":"1.5h","obowiazkowa_rezerwacja":false},{"godzina":"12:00","nazwa":"Spacer po starówce","opis":"Krzywa Wieża, Pomnik Kopernika, rzeźba Osiołka, Piernikarka. Dom Legend Toruńskich opcjonalnie.","czas_trwania":"1h"},{"godzina":"14:30","nazwa":"Centrum Nowoczesności Młyn Wiedzy","opis":"Pięć pięter eksperymentów. Najdłuższe w Polsce wahadło Foucaulta. Strefy warsztatowe do konstruowania.","czas_trwania":"2.5h"},{"godzina":"18:00","nazwa":"Przejazd do Łodzi","opis":"Wyjazd z Torunia, ok. 2h30 jazdy, dotarcie wieczorem.","czas_trwania":"2.5h"}],"nocleg":"Łódź, centrum lub okolice Manufaktury","notatki_praktyczne":"Dom Kopernika i Młyn Wiedzy oba przyjmują bilety online, warto rezerwować z wyprzedzeniem."},
+    {"numer":3,"data":"2026-06-29","dzien_tygodnia":"Poniedziałek","tytul":"Łódź, Manufaktura","czas_jazdy_z_poprzedniego":"2h 30min","dystans_z_poprzedniego_km":180,"glowna_lokalizacja":"Łódź","atrakcje":[{"godzina":"10:00","nazwa":"Spacer po Manufakturze","opis":"Kompleks pofabryczny Izraela Poznańskiego, czerwona cegła, fontanny, największy plac handlowy w Polsce.","czas_trwania":"1.5h"},{"godzina":"12:00","nazwa":"Pałac Poznańskiego","opis":"Rezydencja najbogatszego łódzkiego fabrykanta, dziś Muzeum Miasta Łodzi. XIX-wieczne wnętrza burżuazyjne.","czas_trwania":"1.5h"},{"godzina":"15:00","nazwa":"Experymentarium i Machinarium","opis":"Wystawa eksperymentów dla dzieci plus bezpłatny plac zabaw Machinarium dla 6-12 lat.","czas_trwania":"2h"}],"nocleg":"Łódź, ta sama lokalizacja co dzień poprzedni","notatki_praktyczne":"ALERT: Muzeum Fabryki w Manufakturze w poniedziałki nieczynne. Centrum Nauki i Techniki EC1 też nieczynne w poniedziałki. Dlatego dziś tylko spacer i lżejsze atrakcje, a Muzeum Fabryki + EC1 przesunięte na wtorek."},
+    {"numer":4,"data":"2026-06-30","dzien_tygodnia":"Wtorek","tytul":"Łódź, włókno i prąd","czas_jazdy_z_poprzedniego":"0","dystans_z_poprzedniego_km":0,"glowna_lokalizacja":"Łódź","atrakcje":[{"godzina":"10:00","nazwa":"Muzeum Fabryki w Manufakturze","opis":"Zabytkowe krosna w ruchu. Droga bawełny z plantacji przez fabrykę do koszuli. Maszyny z największego parku maszynowego Poznańskiego.","czas_trwania":"1.5h","obowiazkowa_rezerwacja":false,"uwagi":"Wtorek-piątek 10-18, sob-niedz 10-18, poniedziałek nieczynne."},{"godzina":"13:00","nazwa":"Obiad w Manufakturze","opis":"Strefa gastronomiczna w Qulinarium albo restauracje przy rynku.","czas_trwania":"1h"},{"godzina":"14:30","nazwa":"Centrum Nauki i Techniki EC1","opis":"Dawna elektrownia łódzka jako muzeum techniki. 8000 m2 wystaw o tym jak powstaje prąd. Kino sferyczne, planetarium. Ulica Żywiołów dla młodszych dzieci 3-10 lat (osobny bilet, max 2h).","czas_trwania":"3h","obowiazkowa_rezerwacja":false,"uwagi":"Wt-niedz 10-18, poniedziałek nieczynne. Bilety online: bilety.ec1lodz.pl"}],"nocleg":"Łódź, ten sam hotel","notatki_praktyczne":"Dzień intensywny, dwie duże atrakcje. Można rozważyć krótszą wizytę w jednej z nich jeśli dzieci się zmęczą."},
+    {"numer":5,"data":"2026-07-01","dzien_tygodnia":"Środa","tytul":"Łódź do Ćmielowa","czas_jazdy_z_poprzedniego":"3h","dystans_z_poprzedniego_km":230,"glowna_lokalizacja":"Ćmielów","atrakcje":[{"godzina":"13:00","nazwa":"Żywe Muzeum Porcelany AS Ćmielów","opis":"Wejście do oryginalnego 22-metrowego pieca do wypalania porcelany (multimedialna sala wewnątrz). Pokaz każdego etapu produkcji na żywo: odlewanie figurek, szkliwienie, ręczne malowanie złotem, kalkomania. Unikatowa różowa porcelana wg przedwojennej receptury Kryńskiego.","czas_trwania":"2h","obowiazkowa_rezerwacja":true,"uwagi":"Rezerwacja telefoniczna obowiązkowa, ostatnie wejście 15:00. Min. 4 osoby w grupie. Opcjonalnie warsztat malarski za dopłatą."}],"nocleg":"Sandomierz lub okolice (40 min od Ćmielowa)","notatki_praktyczne":"Wyjazd z Łodzi po śniadaniu, ok. 9:00. Obiad w drodze lub w Ćmielowie."},
+    {"numer":6,"data":"2026-07-02","dzien_tygodnia":"Czwartek","tytul":"Sandomierz, dzień oddechu","czas_jazdy_z_poprzedniego":"40min","dystans_z_poprzedniego_km":40,"glowna_lokalizacja":"Sandomierz","atrakcje":[{"godzina":"10:00","nazwa":"Podziemna Trasa Turystyczna","opis":"Średniowieczne kupieckie piwnice pod sandomierską starówką. Trasa 470 metrów na głębokości do 12 metrów.","czas_trwania":"1h"},{"godzina":"12:00","nazwa":"Starówka i Rynek","opis":"Renesansowa zabudowa, ratusz, Brama Opatowska. Spacer i obiad.","czas_trwania":"2h"},{"godzina":"15:00","nazwa":"Wisła i widoki","opis":"Spacer nad Wisłą, opcjonalnie rejs statkiem.","czas_trwania":"1.5h"}],"nocleg":"Sandomierz albo przesunięcie do Tarnowa, żeby skrócić jutrzejszą jazdę","notatki_praktyczne":"Alternatywa dla dzieci potrzebujących wybiegania energii: Park Jurajski Bałtów (20 min od Ćmielowa, dinozaury, tropikalne zoo, rafting po Kamiennej). Można połączyć Bałtów rano z Sandomierzem po południu."},
+    {"numer":7,"data":"2026-07-03","dzien_tygodnia":"Piątek","tytul":"Dojazd do Lemona","czas_jazdy_z_poprzedniego":"2h 30min","dystans_z_poprzedniego_km":220,"glowna_lokalizacja":"Gródek nad Dunajcem","atrakcje":[{"godzina":"11:00","nazwa":"Opcjonalnie Tarnów (jeśli nie nocowaliście)","opis":"Renesansowa starówka, obiad. Można pominąć jeśli jedziecie z noclegu w okolicy.","czas_trwania":"2h"},{"godzina":"14:30","nazwa":"Opcjonalnie Zamek Tropsztyn w Wytrzyszczce","opis":"Zamek tuż przed Gródkiem nad Dunajcem. Krótki przystanek 30 minut.","czas_trwania":"0.5h"},{"godzina":"16:00","nazwa":"Check-in Lemon Resort Spa","opis":"Doba hotelowa zaczyna się 16:00. Wieczór: basen, kolacja w restauracji nad jeziorem.","czas_trwania":"wieczór"}],"nocleg":"Lemon Resort Spa, Gródek nad Dunajcem","notatki_praktyczne":"Hotel ma bezpłatny parking, bezpłatne ładowanie EV. Doba hotelowa 16:00-12:00. Kolacja w formie bufetu 18:00-20:30."}
+  ],
+  "miejsca_na_mapie": [
+    {"id":"gdynia","nazwa":"Gdynia (start)","latitude":54.5189,"longitude":18.5305,"dzien":1,"typ":"start"},
+    {"id":"torun","nazwa":"Toruń","latitude":53.008692,"longitude":18.60485,"dzien":1,"typ":"atrakcja_z_noclegiem","google_maps_url":"https://maps.google.com/?cid=13980822452107146021","telefon":"+48 56 663 66 17","website":"https://muzeumpiernika.pl/","godziny_otwarcia":"Codziennie 10:00-18:00","rezerwacja":"online z wyprzedzeniem","opis":"Żywe Muzeum Piernika, warsztat dla dzieci"},
+    {"id":"lodz","nazwa":"Łódź","latitude":51.7791,"longitude":19.4441,"dzien":3,"typ":"atrakcja_z_noclegiem","google_maps_url":"https://maps.google.com/?cid=18205785550394553947","telefon":"+48 42 664 92 89","website":"https://www.manufaktura.com/","godziny_otwarcia":"Pn-sob 10:00-22:00, niedz nieczynne","opis":"Manufaktura + EC1 + Muzeum Fabryki"},
+    {"id":"ec1","nazwa":"Centrum Nauki i Techniki EC1","latitude":51.7678,"longitude":19.4679,"dzien":4,"typ":"atrakcja","google_maps_url":"https://maps.google.com/?cid=2241955043856337989","telefon":"+48 42 600 61 00","website":"http://www.centrumnaukiec1.pl/","godziny_otwarcia":"Wt-niedz 10:00-18:00, pn nieczynne","rezerwacja":"online: bilety.ec1lodz.pl","opis":"Muzeum techniki w dawnej elektrowni"},
+    {"id":"cmielow","nazwa":"Ćmielów","latitude":50.8863,"longitude":21.5325,"dzien":5,"typ":"atrakcja","google_maps_url":"https://maps.google.com/?cid=7382122863465396239","telefon":"+48 535 588 960","website":"http://turystyka.cmielow.com.pl/","godziny_otwarcia":"Codziennie 9:00-18:00, ostatnie wejście 15:00","rezerwacja":"telefoniczna obowiązkowa, min. 4 osoby","opis":"Żywe Muzeum Porcelany AS Ćmielów"},
+    {"id":"sandomierz","nazwa":"Sandomierz","latitude":50.6826,"longitude":21.7491,"dzien":6,"typ":"atrakcja_z_noclegiem","opis":"Średniowieczna starówka, podziemna trasa"},
+    {"id":"lemon","nazwa":"Lemon Resort Spa (cel)","latitude":49.7501,"longitude":20.7327,"dzien":7,"typ":"cel","google_maps_url":"https://maps.google.com/?cid=4491105551731832774","telefon":"+48 18 440 58 00","website":"https://www.lemonresort.pl/","adres":"Gródek nad Dunajcem 83, 33-318","opis":"Hotel docelowy, pobyt do 11.07"}
+  ],
+  "checklista_rezerwacji": [
+    {"id":"piernik","nazwa":"Żywe Muzeum Piernika, Toruń","deadline":"2026-06-13","deadline_opis":"2-3 tygodnie przed","metoda":"online","link":"https://muzeumpiernika.pl","priorytet":"wysoki"},
+    {"id":"ec1","nazwa":"Centrum Nauki i Techniki EC1, Łódź","deadline":"2026-06-23","deadline_opis":"1 tydzień przed","metoda":"online","link":"http://bilety.ec1lodz.pl","priorytet":"średni"},
+    {"id":"cmielow","nazwa":"Żywe Muzeum Porcelany, Ćmielów","deadline":"2026-06-20","deadline_opis":"tydzień-dwa przed","metoda":"telefon","telefon":"+48 535 588 960","priorytet":"wysoki","uwagi":"Min. 4 osoby w grupie. Można dorzucić warsztat malarski."},
+    {"id":"fabryka","nazwa":"Muzeum Fabryki w Manufakturze","deadline":"2026-06-15","deadline_opis":"sprawdzić warsztaty","metoda":"online","link":"https://muzeumfabryki.com.pl","priorytet":"niski"},
+    {"id":"nocleg_torun","nazwa":"Nocleg Toruń (1 noc, 27/28.06)","deadline":"2026-06-01","deadline_opis":"ASAP, sezon wakacyjny","metoda":"booking","priorytet":"wysoki"},
+    {"id":"nocleg_lodz","nazwa":"Nocleg Łódź (2 noce, 28-30.06)","deadline":"2026-06-01","deadline_opis":"ASAP, sezon wakacyjny","metoda":"booking","priorytet":"wysoki"},
+    {"id":"nocleg_sandomierz","nazwa":"Nocleg Sandomierz lub Tarnów (2 noce, 1-3.07)","deadline":"2026-06-01","deadline_opis":"ASAP, sezon wakacyjny","metoda":"booking","priorytet":"wysoki"},
+    {"id":"lemon","nazwa":"Lemon Resort Spa (check-in 3.07)","status_default":true,"deadline":"wykonane","metoda":"wykonane","priorytet":"wykonane"}
+  ],
+  "kontakty": [
+    {"nazwa":"Żywe Muzeum Piernika, Toruń","telefon":"+48 56 663 66 17","email":"muzeumpiernika@muzeumpiernika.pl","adres":"Rabiańska 9, 87-100 Toruń"},
+    {"nazwa":"Muzeum Fabryki, Łódź","telefon":"+48 42 664 92 93","email":"muzeum@manufaktura.com","adres":"Drewnowska 58, 91-002 Łódź"},
+    {"nazwa":"Centrum Nauki i Techniki EC1, Łódź","telefon":"+48 42 600 61 00","adres":"Targowa 1/3, 90-022 Łódź"},
+    {"nazwa":"Żywe Muzeum Porcelany AS Ćmielów","telefon":"+48 535 588 960","telefon_2":"+48 15 861 20 21 wew. 22","adres":"Sandomierska 243, 27-440 Ćmielów"},
+    {"nazwa":"Lemon Resort Spa","telefon":"+48 18 440 58 00","adres":"Gródek nad Dunajcem 83, 33-318"}
+  ]
+}
+</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<script>
+"use strict";
+
+/* ============================================================
+   Wczytanie danych
+   ------------------------------------------------------------
+   1) Najpierw spróbuj fetch('trasa-dane.json') — to działa,
+      jeśli strona jest serwowana przez http(s) lub jeśli
+      przeglądarka dopuszcza file://.
+   2) Jeśli fetch padnie (typowe na file:// w Chrome),
+      użyj wbudowanej kopii z <script type="application/json">.
+   ============================================================ */
+async function wczytajDane() {
+  try {
+    const odp = await fetch("trasa-dane.json", { cache: "no-store" });
+    if (!odp.ok) throw new Error("HTTP " + odp.status);
+    const json = await odp.json();
+    console.info("Dane: wczytane z trasa-dane.json");
+    return json;
+  } catch (err) {
+    console.info("Dane: używam wbudowanej kopii (fetch nieosiągalny:", err.message + ")");
+    const el = document.getElementById("dane-fallback");
+    return JSON.parse(el.textContent);
+  }
+}
+
+/* ============================================================
+   Mini-helpery DOM
+   ============================================================ */
+const $ = (s, root = document) => root.querySelector(s);
+const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
+
+function el(tag, attrs = {}, dzieci = []) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === "class") node.className = v;
+    else if (k === "html") node.innerHTML = v;
+    else if (k === "text") node.textContent = v;
+    else if (k.startsWith("on") && typeof v === "function") {
+      node.addEventListener(k.slice(2).toLowerCase(), v);
+    }
+    else if (k === "dataset") for (const [dk, dv] of Object.entries(v)) node.dataset[dk] = dv;
+    else node.setAttribute(k, v);
+  }
+  for (const d of (Array.isArray(dzieci) ? dzieci : [dzieci])) {
+    if (d == null || d === false) continue;
+    node.appendChild(typeof d === "string" ? document.createTextNode(d) : d);
+  }
+  return node;
+}
+
+/* Formatowanie daty ISO (YYYY-MM-DD) na polski tekst */
+function formatujDate(iso) {
+  if (!iso || iso === "wykonane") return iso || "";
+  const [y, m, d] = iso.split("-");
+  const miesiace = [
+    "stycznia","lutego","marca","kwietnia","maja","czerwca",
+    "lipca","sierpnia","września","października","listopada","grudnia"
+  ];
+  return `${parseInt(d, 10)} ${miesiace[parseInt(m, 10) - 1]} ${y}`;
+}
+
+/* Zabezpieczenie przed XSS w popup-ach mapy (Leaflet wkleja HTML) */
+function esc(s) {
+  if (s == null) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function telLink(telefon) {
+  if (!telefon) return null;
+  const cyfry = telefon.replace(/[^+\d]/g, "");
+  return el("a", { href: "tel:" + cyfry, text: telefon });
+}
+
+/* ============================================================
+   Sekcja: Hero
+   ============================================================ */
+function renderujHero(dane) {
+  const w = dane.wycieczka;
+  $("#hero-tytul").textContent = w.tytul;
+  $("#hero-podtytul").textContent = w.podtytul;
+  $("#hero-daty").textContent =
+    `${formatujDate(w.data_start)} – ${formatujDate(w.data_koniec)}`;
+  $("#hero-dni").textContent = `${w.liczba_dni} dni`;
+  $("#hero-dystans").textContent = `${w.dystans_km} km`;
+  $("#hero-uczestnicy").textContent = w.uczestnicy;
+
+  // Trasa skrócona z separatorami i pogrubionymi miastami
+  const trasaEl = $("#hero-trasa");
+  trasaEl.innerHTML = "";
+  dane.trasa_skrocona.forEach((miasto, i) => {
+    if (i > 0) trasaEl.appendChild(document.createTextNode("  →  "));
+    trasaEl.appendChild(el("strong", { text: miasto }));
+  });
+
+  $("#hero-motyw").textContent = w.motyw_przewodni;
+}
+
+/* ============================================================
+   Sekcja: Mapa Leaflet
+   ============================================================ */
+function renderujMape(dane) {
+  try {
+    if (typeof L === "undefined") {
+      throw new Error("Biblioteka Leaflet nie została załadowana");
+    }
+    const mapa = L.map("mapa-leaflet", {
+      scrollWheelZoom: false,
+      zoomControl: true,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18,
+    }).addTo(mapa);
+
+    const wspolrzedne = [];
+    let liczbaMarkerow = 0;
+
+    for (const m of dane.miejsca_na_mapie) {
+      if (typeof m.latitude !== "number" || typeof m.longitude !== "number") {
+        console.error("Brak współrzędnych dla miejsca:", m);
+        continue;
+      }
+
+      const linki = [];
+      if (m.google_maps_url) {
+        linki.push(
+          `<a href="${esc(m.google_maps_url)}" target="_blank" rel="noopener">Google Maps</a>`
+        );
+      }
+      if (m.website) {
+        linki.push(
+          `<a href="${esc(m.website)}" target="_blank" rel="noopener">strona</a>`
+        );
+      }
+
+      const popup = `
+        <strong>${esc(m.nazwa)}</strong>
+        <div class="pop-meta">Dzień ${esc(m.dzien)}${m.godziny_otwarcia ? " · " + esc(m.godziny_otwarcia) : ""}</div>
+        ${m.opis ? `<div>${esc(m.opis)}</div>` : ""}
+        ${linki.length ? `<div class="pop-meta">${linki.join(" · ")}</div>` : ""}
+      `;
+      L.marker([m.latitude, m.longitude]).addTo(mapa).bindPopup(popup);
+      wspolrzedne.push([m.latitude, m.longitude]);
+      liczbaMarkerow++;
+    }
+
+    if (wspolrzedne.length >= 2) {
+      L.polyline(wspolrzedne, {
+        color: "#3A5A40",
+        weight: 3,
+        opacity: 0.65,
+        dashArray: "1, 6",
+        lineCap: "round",
+      }).addTo(mapa);
+    }
+
+    if (wspolrzedne.length > 0) {
+      mapa.fitBounds(wspolrzedne, { padding: [40, 40] });
+    } else {
+      mapa.setView([52.0, 19.5], 6);
+    }
+
+    console.info(`Mapa: wyrenderowano ${liczbaMarkerow} markerów`);
+  } catch (err) {
+    console.error("Błąd renderowania mapy:", err);
+    const elMap = document.getElementById("mapa-leaflet");
+    elMap.style.display = "flex";
+    elMap.style.alignItems = "center";
+    elMap.style.justifyContent = "center";
+    elMap.style.color = "var(--text-muted)";
+    elMap.style.fontSize = "0.875rem";
+    elMap.textContent = "Mapa niedostępna (brak internetu lub błąd Leaflet).";
+  }
+}
+
+/* ============================================================
+   Sekcja: Plan dni (rozwijane karty)
+   ============================================================ */
+function renderujPlanDni(dane) {
+  const cont = $("#plan-dni");
+  cont.innerHTML = "";
+  cont.classList.remove("ladowanie");
+
+  for (const d of dane.dni) {
+    const otwarte = d.numer === 1;
+
+    // Strzałka SVG (16x16)
+    const strzalka = el("span", {
+      class: "dzien-toggle",
+      html: '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"></polyline></svg>',
+    });
+
+    const summary = el("summary", {}, [
+      el("div", { class: "dzien-numer", text: `Dzień ${d.numer}` }),
+      el("div", { class: "dzien-info" }, [
+        el("div", { class: "data", text: `${d.dzien_tygodnia}, ${formatujDate(d.data)}` }),
+        el("div", { class: "tytul", text: d.tytul }),
+      ]),
+      el("div", {
+        class: "dzien-jazda",
+        text: d.czas_jazdy_z_poprzedniego && d.czas_jazdy_z_poprzedniego !== "0"
+          ? `${d.czas_jazdy_z_poprzedniego} · ${d.dystans_z_poprzedniego_km} km`
+          : "",
+      }),
+      strzalka,
+    ]);
+
+    const body = el("div", { class: "dzien-body" });
+
+    for (const a of d.atrakcje) {
+      const nazwaEl = el("div", { class: "atrakcja-nazwa" }, [
+        document.createTextNode(a.nazwa),
+        a.obowiazkowa_rezerwacja ? el("span", { class: "tag", text: "rezerwacja" }) : null,
+      ]);
+
+      const tresc = el("div", {}, [
+        nazwaEl,
+        el("div", { class: "atrakcja-opis", text: a.opis }),
+        a.uwagi ? el("div", { class: "atrakcja-uwagi", text: a.uwagi }) : null,
+      ]);
+
+      body.appendChild(el("div", { class: "atrakcja" }, [
+        el("div", { class: "atrakcja-godzina", text: a.godzina }),
+        tresc,
+      ]));
+    }
+
+    if (d.nocleg) {
+      body.appendChild(el("div", { class: "notatka" }, [
+        el("strong", { text: "Nocleg: " }),
+        document.createTextNode(d.nocleg),
+      ]));
+    }
+
+    if (d.notatki_praktyczne) {
+      const jestAlert = d.notatki_praktyczne.startsWith("ALERT");
+      body.appendChild(el("div", { class: "notatka" + (jestAlert ? " alert" : "") }, [
+        el("strong", { text: jestAlert ? "Uwaga: " : "Wskazówka: " }),
+        document.createTextNode(d.notatki_praktyczne.replace(/^ALERT:\s*/, "")),
+      ]));
+    }
+
+    const details = el("details", { class: "dzien" }, [summary, body]);
+    if (otwarte) details.open = true;
+    cont.appendChild(details);
+  }
+}
+
+/* ============================================================
+   Sekcja: Checklista z localStorage
+   ============================================================ */
+const KLUCZ_LS = "wycieczka-2026-checklista-v1";
+
+function wczytajStanChecklisty() {
+  try {
+    return JSON.parse(localStorage.getItem(KLUCZ_LS) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function zapiszStanChecklisty(stan) {
+  try {
+    localStorage.setItem(KLUCZ_LS, JSON.stringify(stan));
+  } catch (err) {
+    console.warn("Nie udało się zapisać stanu checklisty:", err.message);
+  }
+}
+
+function renderujCheckliste(dane) {
+  const cont = $("#checklista-lista");
+  cont.innerHTML = "";
+  cont.classList.remove("ladowanie");
+
+  const stan = wczytajStanChecklisty();
+
+  for (const item of dane.checklista_rezerwacji) {
+    const idCheck = `chk-${item.id}`;
+    const domyslny = item.status_default === true;
+    const zaznaczony = (item.id in stan) ? stan[item.id] : domyslny;
+
+    const cb = el("input", {
+      type: "checkbox",
+      id: idCheck,
+    });
+    cb.checked = zaznaczony;
+
+    const nazwa = el("label", {
+      class: "chk-nazwa",
+      for: idCheck,
+      text: item.nazwa,
+    });
+
+    const tresc = el("div", { class: "chk-tresc" }, [nazwa]);
+
+    // Dodatkowy link / telefon pod nazwą
+    if (item.link) {
+      const a = el("a", {
+        href: item.link,
+        target: "_blank",
+        rel: "noopener",
+        text: item.link.replace(/^https?:\/\//, "").replace(/\/$/, ""),
+      });
+      tresc.appendChild(el("div", { class: "chk-link" }, [a]));
+    } else if (item.telefon) {
+      const a = telLink(item.telefon);
+      tresc.appendChild(el("div", { class: "chk-link" }, [a]));
+    } else if (item.metoda === "booking") {
+      tresc.appendChild(el("div", { class: "chk-link", text: "booking.com / airbnb" }));
+    }
+
+    if (item.uwagi) {
+      tresc.appendChild(el("div", { class: "chk-link", text: item.uwagi }));
+    }
+
+    const deadline = el("div", { class: "chk-deadline" });
+    if (item.deadline_opis) {
+      deadline.appendChild(document.createTextNode(item.deadline_opis));
+    }
+    if (item.priorytet) {
+      deadline.appendChild(el("span", {
+        class: "priorytet priorytet-" + item.priorytet,
+        text: item.priorytet,
+      }));
+    }
+
+    const li = el("li", { class: zaznaczony ? "done" : "" }, [cb, tresc, deadline]);
+
+    cb.addEventListener("change", () => {
+      stan[item.id] = cb.checked;
+      zapiszStanChecklisty(stan);
+      li.classList.toggle("done", cb.checked);
+    });
+
+    cont.appendChild(li);
+  }
+}
+
+/* ============================================================
+   Sekcja: Kontakty
+   ============================================================ */
+function renderujKontakty(dane) {
+  const cont = $("#kontakty-lista");
+  cont.innerHTML = "";
+  cont.classList.remove("ladowanie");
+
+  for (const k of dane.kontakty) {
+    const pola = el("div", { class: "kontakt-pola" });
+
+    if (k.telefon) {
+      const wartosc = el("div", { class: "pole-val" }, [telLink(k.telefon)]);
+      if (k.telefon_2) {
+        wartosc.appendChild(document.createTextNode("  ·  "));
+        wartosc.appendChild(telLink(k.telefon_2));
+      }
+      pola.appendChild(el("div", { class: "pole" }, [
+        el("div", { class: "pole-label", text: "Telefon" }),
+        wartosc,
+      ]));
+    }
+
+    if (k.email) {
+      pola.appendChild(el("div", { class: "pole" }, [
+        el("div", { class: "pole-label", text: "Email" }),
+        el("div", { class: "pole-val" }, [
+          el("a", { href: "mailto:" + k.email, text: k.email }),
+        ]),
+      ]));
+    }
+
+    if (k.adres) {
+      pola.appendChild(el("div", { class: "pole" }, [
+        el("div", { class: "pole-label", text: "Adres" }),
+        el("div", { class: "pole-val", text: k.adres }),
+      ]));
+    }
+
+    cont.appendChild(el("div", { class: "kontakt" }, [
+      el("h4", { text: k.nazwa }),
+      pola,
+    ]));
+  }
+}
+
+/* ============================================================
+   Sekcja: Motyw dla dzieci
+   ============================================================ */
+function renderujMotyw(dane) {
+  const cont = $("#motyw-lista");
+  cont.innerHTML = "";
+  cont.classList.remove("ladowanie");
+
+  for (const e of dane.motyw_dla_dzieci) {
+    cont.appendChild(el("div", { class: "etap" }, [
+      el("div", { class: "etap-numer", text: String(e.etap) }),
+      el("div", {}, [
+        el("div", { class: "etap-meta", text: `${e.miasto} · ${e.epoka}` }),
+        el("div", { class: "etap-produkt", text: e.produkt }),
+        el("div", { class: "etap-narracja", text: e.narracja }),
+      ]),
+    ]));
+  }
+}
+
+/* ============================================================
+   Inicjalizacja
+   ============================================================ */
+(async function init() {
+  try {
+    const dane = await wczytajDane();
+    renderujHero(dane);
+    renderujMape(dane);
+    renderujPlanDni(dane);
+    renderujCheckliste(dane);
+    renderujKontakty(dane);
+    renderujMotyw(dane);
+    console.info("Strona gotowa.");
+  } catch (err) {
+    console.error("Nie udało się zainicjalizować strony:", err);
+    document.body.innerHTML =
+      '<main style="padding:2rem;color:#1A1A1A;font-family:system-ui">' +
+      '<h1>Błąd ładowania danych</h1>' +
+      '<p>Sprawdź konsolę przeglądarki (F12). Plik <code>trasa-dane.json</code> ' +
+      'może być niepoprawny.</p></main>';
+  }
+})();
+</script>
+
+</body>
+</html>
